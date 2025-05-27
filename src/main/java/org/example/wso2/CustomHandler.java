@@ -24,13 +24,10 @@ public class CustomHandler extends AbstractHandler {
             return true;
         }
 
-        // Remove whitespace and format tags
-        String cleanedTags = listOfTags.trim().replaceAll("\\s+", "");
-
         // Set the Synapse property to be used elsewhere in the mediation flow
-        messageContext.setProperty("API_TAGS", cleanedTags);
+        messageContext.setProperty("API_TAGS", listOfTags);
 
-        log.info("CustomHandler: Set Synapse property [API_TAGS] = " + cleanedTags);
+        log.info("CustomHandler: Set Synapse property [API_TAGS] = " + listOfTags);
         return true;
     }
 
@@ -46,6 +43,9 @@ public class CustomHandler extends AbstractHandler {
      * @param listOfTags comma-separated string of tags
      */
     public void setListOfTags(String listOfTags) {
-        this.listOfTags = listOfTags;
+        // Remove whitespace and format tags
+        String cleanedTags = listOfTags.trim().replaceAll("\\s+", "");
+
+        this.listOfTags = cleanedTags;
     }
 }
