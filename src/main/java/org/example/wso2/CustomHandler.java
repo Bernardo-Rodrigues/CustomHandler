@@ -15,15 +15,10 @@ public class CustomHandler extends AbstractHandler {
     /**
      * Comma-separated list of tags, injected via handler property configuration.
      */
-    private String listOfTags;
+    private String listOfTags = "";
 
     @Override
     public boolean handleRequest(MessageContext messageContext) {
-        if (listOfTags == null || listOfTags.isBlank()) {
-            log.warn("CustomHandler: No tags provided in 'listOfTags'. Skipping.");
-            return true;
-        }
-
         // Set the Synapse property to be used elsewhere in the mediation flow
         messageContext.setProperty("API_TAGS", listOfTags);
 
@@ -43,6 +38,11 @@ public class CustomHandler extends AbstractHandler {
      * @param listOfTags comma-separated string of tags
      */
     public void setListOfTags(String listOfTags) {
+        if (listOfTags == null || listOfTags.isBlank()) {
+            log.warn("CustomHandler: No tags provided in 'listOfTags'.");
+            return;
+        }
+
         // Remove whitespace and format tags
         String cleanedTags = listOfTags.trim().replaceAll("\\s+", "");
 
